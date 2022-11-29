@@ -4,12 +4,20 @@
 #include <fstream>
 #include <string>
 
+#include <memory>
+
+class WordConverter;
+
 class FileHandler
 {
 public:
     FileHandler();
 
+    ~FileHandler();
+
     bool openFile(const std::string &fileName);
+
+    void closeFiles();
 
     void processCurrentFile();
 
@@ -20,9 +28,13 @@ private:
 
     bool mExtractToFile;
 
-    std::string mOutputFile;
+    std::string mOutputFileName;
 
     std::ifstream mInputFile;
+
+    std::ofstream mOutputFile;
+
+    std::unique_ptr<WordConverter> mWordConverter;
 };
 
 #endif

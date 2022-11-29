@@ -3,9 +3,17 @@
 #include <algorithm>
 #include <iostream>
 
+#include "WordConverter.h"
+
 FileHandler::FileHandler()
-    : mExtractToFile(false)
+    : mExtractToFile(false),
+      mWordConverter(std::make_unique<WordConverter>())
 {
+}
+
+FileHandler::~FileHandler()
+{
+    closeFiles();
 }
 
 bool FileHandler::openFile(const std::string &fileName)
@@ -22,29 +30,49 @@ bool FileHandler::openFile(const std::string &fileName)
     return result;
 }
 
+void FileHandler::closeFiles()
+{
+    if (mInputFile.is_open())
+    {
+        mInputFile.close();
+    }
+
+    if (mOutputFile.is_open())
+    {
+        mOutputFile.close();
+    }
+}
+
 void FileHandler::processCurrentFile()
 {
     if (mExtractToFile)
     {
+        mOutputFile.open(mOutputFileName);
+        // TODO: Error control
     }
 
-    std::string word;
-    while (mInputFile >> word)
+    std::string currentWord;
+    while (mInputFile >> currentWord)
     {
+        std::string word = currentWord;
         removePunctuationMarks(word);
 
         std::transform(word.begin(), word.end(), word.begin(),
                        [](unsigned char c)
                        { return std::tolower(c); });
 
-        std::cout << word << '\n';
+        mWordConverter->processWord(word);
+
+        std::cout << word << ' ';
     }
+
+    closeFiles();
 }
 
 void FileHandler::extractToFile(const std::string &fileName)
 {
     mExtractToFile = true;
-    mOutputFile = fileName;
+    mOutputFileName = fileName;
 }
 
 void FileHandler::removePunctuationMarks(std::string &word)

@@ -23,7 +23,7 @@ int DigitsToNumbers::getNumber(const std::string &word)
     return result;
 }
 
-const std::map<std::string, int> &getNumbers()
+const std::map<std::string, int> &DigitsToNumbers::getNumbers()
 {
     static const std::map<std::string, int> ret{
         {"one", 1},
