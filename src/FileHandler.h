@@ -28,6 +28,8 @@ private:
 
     bool mExtractToFile;
 
+    bool mIsADigit;
+
     std::string mOutputFileName;
 
     std::ifstream mInputFile;

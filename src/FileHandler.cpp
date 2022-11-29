@@ -8,6 +8,7 @@
 
 FileHandler::FileHandler()
     : mExtractToFile(false),
+      mIsADigit(false),
       mWordConverter(std::make_unique<WordConverter>())
 {
 }
@@ -64,6 +65,10 @@ void FileHandler::processCurrentFile()
                        { return std::tolower(c); });
 
         int value = DigitsToNumbers(word).operator int();
+        if (value != -1)
+        {
+            mIsADigit = true;
+        }
 
         mWordConverter->processWord(word);
 
@@ -77,9 +82,10 @@ void FileHandler::processCurrentFile()
             {
                 mOutputFile << number << ' ';
             }
+            mIsADigit = false;
         }
 
-        if (value == -1 && word != "a" && word != "and")
+        if ((value == -1 && word != "a" && word != "and") || (word == "a" && !mIsADigit) || (word == "and" && !mIsADigit))
         {
             std::cout << currentWord << ' ';
             if (mExtractToFile)

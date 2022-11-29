@@ -11,7 +11,8 @@ WordConverter::WordConverter()
 
 void WordConverter::setReady(bool newValue)
 {
-    mValueIsReady = newValue;
+    if (mAccumulatedValue != 0)
+        mValueIsReady = newValue;
 }
 
 bool WordConverter::valueIsReady()
@@ -46,6 +47,11 @@ void WordConverter::processWord(const std::string &word)
         else if (valueOrder > lastOrder)
         {
             mAccumulatedValue += (mLastValue * value);
+            mLastValue = 0;
+        }
+        else if (valueOrder < lastOrder)
+        {
+            mAccumulatedValue += mLastValue;
             mLastValue = value;
         }
         else
@@ -65,7 +71,7 @@ int WordConverter::magnitudeOrder(int number)
 {
     int counter = 0;
 
-    while (number > 10)
+    while (number >= 10)
     {
         number = number / 10;
         counter++;
