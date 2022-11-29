@@ -65,12 +65,14 @@ int main(int argc, char *argv[])
     if (!inputFilePath.empty())
     {
         FileHandler fileHandler;
-        fileHandler.readFile(inputFilePath);
-        if (!outputFilePath.empty())
+        if (fileHandler.openFile(inputFilePath))
         {
-        }
-        else
-        {
+            if (!outputFilePath.empty())
+            {
+                fileHandler.extractToFile(outputFilePath);
+            }
+
+            fileHandler.processCurrentFile();
         }
     }
 
