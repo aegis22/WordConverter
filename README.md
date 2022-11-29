@@ -1,6 +1,6 @@
 # WordConverter
 
-Program to convert text into numbers
+Program to convert text into numbers. It will always show the results in the console and also could create an output file.
 
 # Requirements
 
