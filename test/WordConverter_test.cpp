@@ -1,7 +1,9 @@
+#include "../src/WordConverter.h"
 
 #include <gtest/gtest.h>
 
-TEST(WordConverter_test, UseGTestMacros)
+TEST(WordConverter_test, OneConversor)
 {
-    ASSERT_TRUE(true);
+    WordConverter WordConverter;
+    ASSERT_EQ(true, true);
 }

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(WordConverter VERSION 1.0)
+project(word_converter VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
@@ -10,7 +10,13 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_subdirectory(src)
 add_subdirectory(test)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} 
+    src/main.cpp
+)
+
+target_link_libraries(${PROJECT_NAME} 
+    Conversor
+)
 
 if (NOT googletest)
     include(FetchContent)
