@@ -24,7 +24,7 @@ public:
     void extractToFile(const std::string &fileName);
 
 private:
-    void removePunctuationMarks(std::string &word);
+    bool removePunctuationMarks(std::string &word);
 
     bool mExtractToFile;
 

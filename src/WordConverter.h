@@ -8,16 +8,22 @@ class WordConverter
 public:
     WordConverter();
 
+    void setReady(bool newValue);
+
     bool valueIsReady();
 
     int getValue();
 
+    void reset();
+
     void processWord(const std::string &word);
 
 private:
+    int magnitudeOrder(int number);
+
     bool mValueIsReady;
 
-    int mCurrentValue;
+    int mLastValue;
 
     int mAccumulatedValue;
 };

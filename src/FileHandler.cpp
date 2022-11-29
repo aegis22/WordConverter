@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 
+#include "DigitsToNumbers.h"
 #include "WordConverter.h"
 
 FileHandler::FileHandler()
@@ -55,15 +56,37 @@ void FileHandler::processCurrentFile()
     while (mInputFile >> currentWord)
     {
         std::string word = currentWord;
-        removePunctuationMarks(word);
+
+        mWordConverter->setReady(removePunctuationMarks(word));
 
         std::transform(word.begin(), word.end(), word.begin(),
                        [](unsigned char c)
                        { return std::tolower(c); });
 
+        int value = DigitsToNumbers(word).operator int();
+
         mWordConverter->processWord(word);
 
-        std::cout << word << ' ';
+        if (mWordConverter->valueIsReady())
+        {
+            int number = mWordConverter->getValue();
+            mWordConverter->reset();
+
+            std::cout << number << ' ';
+            if (mExtractToFile)
+            {
+                mOutputFile << number << ' ';
+            }
+        }
+
+        if (value == -1 && word != "a" && word != "and")
+        {
+            std::cout << currentWord << ' ';
+            if (mExtractToFile)
+            {
+                mOutputFile << currentWord << ' ';
+            }
+        }
     }
 
     closeFiles();
@@ -75,11 +98,16 @@ void FileHandler::extractToFile(const std::string &fileName)
     mOutputFileName = fileName;
 }
 
-void FileHandler::removePunctuationMarks(std::string &word)
+bool FileHandler::removePunctuationMarks(std::string &word)
 {
+    bool removed = false;
+
     char last = word.back();
     if (last == '.' || last == ',' || last == ';')
     {
         word.pop_back();
+        removed = true;
     }
+
+    return removed;
 }
