@@ -2,6 +2,8 @@
 #include <cstring>
 #include <string>
 
+#include "FileHandler.h"
+
 void printUseOfProgram()
 {
     std::cerr << "Usage: word_converter -i <input_file> [-o output file]\n";
@@ -62,6 +64,8 @@ int main(int argc, char *argv[])
 
     if (!inputFilePath.empty())
     {
+        FileHandler fileHandler;
+        fileHandler.readFile(inputFilePath);
         if (!outputFilePath.empty())
         {
         }

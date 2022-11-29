@@ -4,7 +4,7 @@
 class WordConverter
 {
 public:
-    WordConverter() = default;
+    WordConverter();
 
 private:
 };
